@@ -1,0 +1,539 @@
+[app]
+title = "AI Chatbot"
+page_icon = "🤖"
+description = "Ask me anything about AI, coding, or beyond!"
+model = "mistralai/mistral-7b-instruct"
+system_prompt = "You are a helpful assistant."
+
+[api]
+available_models = [
+    "mistralai/mistral-7b-instruct:free",
+    "deepseek/deepseek-chat-v3-0324:free",
+    "google/gemini-2.0-flash-exp:free",
+]
+
+[ui]
+chat_height = 620
+chat_container_height = 580
+layout = "wide"
+initial_sidebar_state = "expanded"
+
+[chat]
+auto_scroll_delay = 100
+timestamp_format = "%H:%M"
+
+[sidebar]
+chat_controls_title = "## 🎛️ Chat Controls"
+chat_stats_title = "### 📊 Chat Statistics"
+clear_button_text = "🗑️ Clear Chat"
+export_button_text = "💾 Export Chat"
+input_placeholder = "Type your message here..."
+random_button_tooltip = "Get a random conversation starter"
+
+[labels]
+you = "👤 You"
+assistant = "🤖 Assistant"
+your_messages = "Your Messages"
+ai_responses = "AI Responses"
+avg_response_time = "Avg Response Time"
+
+[messages]
+welcome_title = "Welcome to AI Chat!"
+welcome_subtitle = "Start a conversation by typing a message below."
+thinking = "🤔 Thinking..."
+footer_text = "Built with ❤️ using Streamlit and OpenRouter"
+
+[prompts]
+random_starters = [
+    "What's the weather like today?",
+    "Tell me a fun fact",
+    "How can I be more productive?",
+    "What's a good book recommendation?",
+    "Explain quantum computing simply",
+    "What's the latest in AI technology?",
+    "How do I learn programming effectively?",
+    "What are some healthy habits I should adopt?",
+]
+
+[styles]
+css = """
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+
+/* Global Styles */
+.main .block-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* Hide Streamlit elements */
+footer, header, .stDeployButton {
+    display: none !important;
+}
+
+#MainMenu {
+    visibility: hidden;
+}
+
+/* Custom Chat Container */
+.custom-chat-container {
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 20px 10px;
+    background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+    border-radius: 15px;
+    border: 1px solid #e9ecef;
+    margin: 20px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Message Rows */
+.message-row {
+    margin: 20px 0;
+    display: flex;
+    width: 100%;
+}
+
+.user-row {
+    justify-content: flex-end;
+}
+
+.ai-row {
+    justify-content: flex-start;
+}
+
+/* Enhanced Message Bubbles */
+.user-bubble {
+    background: linear-gradient(135deg, #4a90e2, #007aff);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 20px 20px 5px 20px;
+    max-width: 75%;
+    box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+    animation: slideInRight 0.4s ease-out;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+
+.ai-bubble {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 20px 20px 20px 5px;
+    max-width: 75%;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    animation: slideInLeft 0.4s ease-out;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+
+/* Message Headers */
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+.role-label {
+    font-weight: 600;
+}
+
+.timestamp {
+    font-size: 0.8em;
+    opacity: 0.8;
+}
+
+/* Message Content */
+.message-content {
+    line-height: 1.6;
+    font-size: 1em;
+    word-wrap: break-word;
+}
+
+/* Hover Effects */
+.user-bubble:hover, .ai-bubble:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+/* Scrollbar for chat container */
+.custom-chat-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-chat-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.custom-chat-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border-radius: 10px;
+}
+
+.custom-chat-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #5a6fd8, #6a4190);
+}
+
+/* Header */
+.main-header {
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.main-header h1 {
+    font-size: 2.5em;
+    margin: 0;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+}
+
+.main-header p {
+    font-size: 1.1em;
+    margin: 10px 0 0;
+    opacity: 0.9;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Stat card */
+.stat-card {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 15px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.stat-number {
+    font-size: 2.2em;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Inter', sans-serif;
+}
+
+.stat-label {
+    font-size: 0.85em;
+    color: #777;
+    text-transform: uppercase;
+    margin-top: 6px;
+}
+
+/* Timestamp */
+.timestamp {
+    font-size: 0.75em;
+    color: #aaa;
+    text-align: right;
+    margin-top: 5px;
+}
+
+footer, header, .stDeployButton {
+    display: none;
+}
+
+.stButton > button {
+    background: #007aff;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.stAlert {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+/* Hide empty containers */
+.stElementContainer:has(.chat-container:empty) {
+    display: none !important;
+}
+
+/* Or target the specific empty div */
+div[data-testid="stMarkdownContainer"]:has(.chat-container:empty) {
+    display: none !important;
+}
+
+/* Enhanced Sidebar Styling */
+.sidebar-section {
+    margin-bottom: 20px;
+}
+
+/* Enhanced stat cards */
+.enhanced-stat-card {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.enhanced-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+}
+
+.enhanced-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.stat-icon {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+.enhanced-stat-card .stat-number {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #667eea;
+    font-family: 'Inter', sans-serif;
+    margin: 5px 0;
+}
+
+.enhanced-stat-card .stat-label {
+    font-size: 0.75em;
+    color: #6c757d;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Sidebar buttons enhancement */
+.stButton > button {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 20px !important;
+    border-radius: 10px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3) !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+}
+
+/* Secondary button styling */
+.stButton > button[kind="secondary"] {
+    background: linear-gradient(135deg, #dc3545, #c82333) !important;
+}
+
+/* Disabled button */
+.stButton > button:disabled {
+    background: #6c757d !important;
+    opacity: 0.6 !important;
+    transform: none !important;
+}
+
+/* Selectbox and slider styling */
+.stSelectbox > div > div {
+    border-radius: 8px !important;
+    border: 2px solid #e9ecef !important;
+}
+
+.stSelectbox > div > div:focus-within {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2) !important;
+}
+
+.stSlider > div > div > div {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+}
+
+/* Expander styling */
+.streamlit-expanderHeader {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
+    border-radius: 8px !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+/* Welcome Container */
+.welcome-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    padding: 40px 20px;
+}
+
+.welcome-content {
+    text-align: center;
+    max-width: 600px;
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+}
+
+.welcome-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+.welcome-content h2 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+}
+
+.welcome-content p {
+    color: #6c757d;
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.quick-start {
+    margin-top: 30px;
+}
+
+.quick-start h4 {
+    color: #495057;
+    margin-bottom: 15px;
+}
+
+.suggestion-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.chip {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.chip:hover {
+    transform: translateY(-2px);
+}
+
+/* Enhanced message styling for native chat */
+.message-wrapper {
+    font-family: 'Inter', sans-serif;
+}
+
+.message-content {
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.message-timestamp {
+    font-size: 0.8em;
+    color: #6c757d;
+    text-align: right;
+    opacity: 0.7;
+}
+
+/* Hide empty Streamlit containers */
+.stElementContainer:empty {
+    display: none !important;
+}
+
+div[data-testid="stMarkdownContainer"]:empty {
+    display: none !important;
+}
+
+/* Style native chat messages */
+.stChatMessage {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 15px !important;
+    margin: 10px 0 !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
+    border: 1px solid #e9ecef !important;
+}
+
+.stChatMessage[data-testid="user-message"] {
+    background: linear-gradient(135deg, #4a90e2, #007aff) !important;
+    color: white !important;
+}
+
+.stChatMessage[data-testid="assistant-message"] {
+    background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    color: white !important;
+}
+
+/* Remove default Streamlit spacing issues */
+.main .block-container {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+/* Fix container spacing */
+.stContainer > div {
+    gap: 1rem !important;
+}
+
+/* Animation keyframes */
+@keyframes slideInRight {
+    from { transform: translateX(50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .user-bubble, .ai-bubble {
+        max-width: 90%;
+        padding: 12px 16px;
+    }
+
+    .message-header {
+        font-size: 0.8em;
+    }
+}
+"""
